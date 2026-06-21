@@ -120,6 +120,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-GEMINI_API_KEY = "AIzaSyBfMTVRS-5_d-gdMQJfyFaCZ4zg57ZcAu8"
+import os
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 CORS_ALLOW_ALL_ORIGINS = True
