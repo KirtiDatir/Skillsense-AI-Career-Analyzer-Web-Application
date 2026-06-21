@@ -303,4 +303,4 @@ export default function UploadPage({ onNavigate, state, setState }) {
       </div>
     </div>
   );
-}
+} 
