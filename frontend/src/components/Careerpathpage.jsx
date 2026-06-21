@@ -55,7 +55,7 @@ export default function CareerPathPage({ onNavigate, state }) {
   useEffect(() => {
     if (!r || careerData) return;
     fetchCareerPath();
-  }, []);
+  }, );
 
   const fetchCareerPath = async () => {
     setLoading(true);

@@ -24,7 +24,7 @@ const LOADING_STEPS = [
 function LoadingSteps({ active }) {
   const [step, setStep] = useState(0);
   useEffect(() => {
-    if (!active) { setStep(0); return; }
+    if (!active) {setStep(0); return; }
     const iv = setInterval(() => setStep((s) => Math.min(s + 1, LOADING_STEPS.length - 1)), 900);
     return () => clearInterval(iv);
   }, [active]);
