@@ -67,9 +67,8 @@ def call_gemini(prompt: str) -> str:
     client = get_gemini_client()
 
     response = client.models.generate_content(
-        model="gemini-3-flash-preview",
+        model="gemini-2.5-flash",
         contents=prompt,
-        config={"response_mime_type": "application/json"},
     )
     return response.text.strip()
 
@@ -183,12 +182,20 @@ def analyze_resume(request):
     try:
         raw = call_gemini(prompt)
     except Exception as e:
-        return JsonResponse({"error": f"Gemini API error: {str(e)}"}, status=500)
+        import traceback
+    print(traceback.format_exc())
+    return JsonResponse(
+        {
+            "error": str(e),
+            "type": type(e).__name__,
+        },
+        status=500,
+    )
 
     try:
         data = parse_json_safe(raw)
-    except Exception:
-        return JsonResponse({"error": "Invalid JSON from AI", "raw": raw}, status=500)
+    except Exception as e:
+        return JsonResponse({"error": f"Gemini API error: {str(e)}"}, status=500)
 
     required = {"score", "summary", "strengths", "gaps", "certs", "projects", "skill_scores"}
     if not required.issubset(data.keys()):
@@ -294,7 +301,15 @@ Key skill gaps: {', '.join(gaps) if gaps else 'unknown'}
     try:
         raw = call_gemini(prompt)
     except Exception as e:
-        return JsonResponse({"error": f"Gemini API error: {str(e)}"}, status=500)
+        import traceback
+    print(traceback.format_exc())
+    return JsonResponse(
+        {
+            "error": str(e),
+            "type": type(e).__name__,
+        },
+        status=500,
+    )
 
     try:
         data = parse_json_safe(raw)
