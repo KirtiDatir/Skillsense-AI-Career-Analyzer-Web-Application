@@ -19,9 +19,15 @@ from google import genai
 # GEMINI CLIENT
 # ─────────────────────────────
 def get_gemini_client():
-    api_key = getattr(settings, "GEMINI_API_KEY", None) or os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("GEMINI_API_KEY")
+
+    print("GEMINI_API_KEY FOUND:", bool(api_key))
+
     if not api_key:
-        raise RuntimeError("GEMINI_API_KEY not set")
+        raise RuntimeError(
+            "GEMINI_API_KEY not found in Render Environment Variables"
+        )
+
     return genai.Client(api_key=api_key)
 
 
