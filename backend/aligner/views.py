@@ -181,21 +181,30 @@ def analyze_resume(request):
 
     try:
         raw = call_gemini(prompt)
+        
     except Exception as e:
         import traceback
-    print(traceback.format_exc())
-    return JsonResponse(
-        {
+        print(traceback.format_exc())
+        return JsonResponse(
+           {
             "error": str(e),
             "type": type(e).__name__,
-        },
+           },
         status=500,
-    )
+        )
 
     try:
         data = parse_json_safe(raw)
     except Exception as e:
-        return JsonResponse({"error": f"Gemini API error: {str(e)}"}, status=500)
+        import traceback
+        print(traceback.format_exc())
+        return JsonResponse(
+         {
+            "error": f"JSON Parse Error: {str(e)}",
+            "raw": raw,
+         },
+        status=500,
+        )
 
     required = {"score", "summary", "strengths", "gaps", "certs", "projects", "skill_scores"}
     if not required.issubset(data.keys()):
@@ -300,16 +309,17 @@ Key skill gaps: {', '.join(gaps) if gaps else 'unknown'}
 
     try:
         raw = call_gemini(prompt)
+        
     except Exception as e:
         import traceback
-    print(traceback.format_exc())
-    return JsonResponse(
-        {
+        print(traceback.format_exc())
+        return JsonResponse(
+          {
             "error": str(e),
             "type": type(e).__name__,
-        },
+          },
         status=500,
-    )
+        )
 
     try:
         data = parse_json_safe(raw)
