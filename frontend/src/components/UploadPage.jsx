@@ -84,7 +84,13 @@ export default function UploadPage({ onNavigate, state, setState }) {
       const fd = new FormData();
       if (state.file) fd.append("resume", state.file);
       fd.append("role", state.role);
-      const res = await fetch("/api/analyze/", { method: "POST", body: fd });
+      const res = await fetch(
+  "https://skillsense-ai-backend-6h4n.onrender.com/api/analyze/",
+  {
+    method: "POST",
+    body: fd,
+  }
+);
       if (!res.ok) {
         const e = await res.json().catch(() => ({}));
         throw new Error(e.error || `Server error ${res.status}`);
